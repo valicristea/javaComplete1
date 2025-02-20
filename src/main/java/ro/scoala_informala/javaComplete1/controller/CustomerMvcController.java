@@ -1,23 +1,44 @@
 package ro.scoala_informala.javaComplete1.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ro.scoala_informala.javaComplete1.model.Customer;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-@RestController
-@RequestMapping("/customers")
-public class CustomerController {
-    private List<Customer> customerList =  List.of(new Customer(15, "Popescu", null),
-            new Customer(16, "toni", null));
+@Controller
+@RequestMapping("/mvc/customers")
+public class CustomerMvcController {
+    private List<Customer> customerList =  new ArrayList<>();
+
+    public CustomerMvcController() {
+        customerList.addAll(List.of(new Customer(15, "Popescu", null),
+                new Customer(16, "toni", null)));
+    }
 
     @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public Customer createCustomer(@RequestBody Customer customer) {
-        // create in database the user
-        return customer;
+    public String createCustomer(@ModelAttribute Customer customer, Model model) {
+        customerList.add(customer);
+
+        //goes to the view
+        model.addAttribute("customerList", customerList);
+        model.addAttribute("date", LocalDate.now().toString());
+        return "/customer/list";
     }
+
+    @GetMapping("/create")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public String  getCreateCustomerForm() {
+        return "/customer/createCustomerForm";
+    }
+
+
+
+
 
     @GetMapping
     public List<Customer> getAllCustomers() {
