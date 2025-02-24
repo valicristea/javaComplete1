@@ -64,7 +64,10 @@ public class CustomerMvcController {
         return customer;
     }
 
-    //TODO ADD DELETE CUSTOMER ENDPOINT
+    @DeleteMapping ("/{id}")
+    public boolean deleteCustomer (@PathVariable ("id") Integer id) {
+        return customerList.removeIf(customer -> customer.getId() == id);
+    }
 
 
 
