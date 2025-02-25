@@ -10,11 +10,25 @@
     <tr>
         <th>Id</th>
         <th>Customername</th>
+        <th>Update</th>
+        <th>Delete</th>
     </tr>
 
     <tr th:each="customer: ${customerList}">
         <td th:text="${customer.id}" />
         <td th:text="${customer.name}" />
+        <td >
+            <form action="/mvc/customers/updateForm">
+                <input type="hidden" th:value = "${customer.id}" name = "Id"/>
+                <input type="submit" value="Update" />
+            </form>
+        </td>
+        <td >
+            <form action="/mvc/customers/delete">
+                <input type="submit" value="Delete" />
+            </form>
+        </td>
+
     </tr>
 </table>
 

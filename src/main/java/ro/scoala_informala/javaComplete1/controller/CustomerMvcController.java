@@ -50,15 +50,24 @@ public class CustomerMvcController {
                 .orElseThrow(() -> new RuntimeException("Customer with id " + id + " does not exist"));
     }
 
-    @PostMapping("/{id}")
-    public Customer updateCustomer(@PathVariable("id") Integer id, @RequestParam String newName) {
+    @GetMapping("/updateForm")
+
+    public String displayUpdateForm(Model model, @RequestParam("Id") String customerId){
+        model.addAttribute("viewCustomerId", customerId);
+        return "customers/updateCustomerForm";
+
+    }
+
+    @PostMapping("/update")
+    public String updateCustomer(@RequestParam("id") Integer id, @RequestParam String newName) {
         Customer customer = customerList.stream()
                 .filter(c -> c.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Customer with id " + id + " does not exist"));
 
         customer.setName(newName);
-        return customer;
+        return "redirect:/mvc/customers";
+
     }
 
 
