@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<table>
+<table border="1">
     <tr>
         <th>Id</th>
         <th>Customername</th>
@@ -16,8 +16,11 @@
         <td th:text="${customer.id}" />
         <td th:text="${customer.name}" />
     </tr>
-
 </table>
+
+<form action="/mvc/customers/create">
+    <input type="submit" value="Create a customer" />
+</form>
 
 <p th:text="'Current date is ' + ${date}"/>
 

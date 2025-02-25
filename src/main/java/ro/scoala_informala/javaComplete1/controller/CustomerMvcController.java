@@ -23,26 +23,23 @@ public class CustomerMvcController {
     @PostMapping
     public String createCustomer(@ModelAttribute Customer customer, Model model) {
         customerList.add(customer);
-
         //goes to the view
         model.addAttribute("customerList", customerList);
         model.addAttribute("date", LocalDate.now().toString());
-        return "/customer/list";
+        return "/customers/list";
+    }
+
+    @GetMapping()
+    public String getAllCustomers(Model model) {
+        model.addAttribute("customerList", customerList);
+        model.addAttribute("date", LocalDate.now().toString());
+        return "/customers/list";
     }
 
     @GetMapping("/create")
     @ResponseStatus(value = HttpStatus.CREATED)
     public String  getCreateCustomerForm() {
-        return "/customer/createCustomerForm";
-    }
-
-
-
-
-
-    @GetMapping
-    public List<Customer> getAllCustomers() {
-        return customerList;
+        return "/customers/createCustomerForm";
     }
 
     @GetMapping("/{id}")
@@ -53,7 +50,7 @@ public class CustomerMvcController {
                 .orElseThrow(() -> new RuntimeException("Customer with id " + id + " does not exist"));
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     public Customer updateCustomer(@PathVariable("id") Integer id, @RequestParam String newName) {
         Customer customer = customerList.stream()
                 .filter(c -> c.getId() == id)
@@ -63,9 +60,6 @@ public class CustomerMvcController {
         customer.setName(newName);
         return customer;
     }
-
-    //TODO ADD DELETE CUSTOMER ENDPOINT
-
 
 
 }
